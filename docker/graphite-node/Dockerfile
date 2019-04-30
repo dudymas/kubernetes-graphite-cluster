@@ -1,7 +1,7 @@
 from	python:3-alpine
 
 # Install required packages
-RUN     apk add --update git
+RUN     apk add --update git build-base
 RUN     pip install Twisted==13.2.0
 RUN     pip install pytz
 ARG graphite_version=1.1.x
