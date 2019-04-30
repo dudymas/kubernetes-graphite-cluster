@@ -24,6 +24,7 @@ RUN apk add npm && mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 ADD kube-watch.js /kube-watch/kube-watch.js
 RUN apk add supervisor
+RUN mkdir -p /var/log/supervisor
 
 EXPOSE 2003
 

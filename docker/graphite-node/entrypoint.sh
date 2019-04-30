@@ -8,4 +8,6 @@ then
   crontab -u root /etc/cron.d/curator.cron
 fi
 
+mkdir -p /var/log/supervisor
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
