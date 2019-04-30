@@ -46,6 +46,7 @@ RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
 RUN apk add npm && mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 RUN apk add supervisor
+RUN apk add nginx gunicorn
 ADD kube-watch.js /kube-watch/kube-watch.js
 
 ADD entrypoint.sh /entrypoint.sh

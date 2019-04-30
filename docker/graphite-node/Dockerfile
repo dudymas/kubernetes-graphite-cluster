@@ -48,6 +48,7 @@ RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
 ADD curator/cron /etc/cron.d/curator.cron
 ADD curator/run.sh /etc/cron.d/curator.sh
 RUN apk add supervisor && chmod +x /etc/cron.d/curator.sh
+RUN apk add nginx gunicorn
 
 ADD entrypoint.sh /entrypoint.sh
 
