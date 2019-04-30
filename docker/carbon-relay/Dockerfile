@@ -9,14 +9,15 @@ run curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 run apt-get install -y nodejs
 RUN     pip install Twisted==13.2.0
 RUN     pip install pytz
+ARG graphite_version=1.1.x
 RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
         cd /src/whisper                                                                   &&\
-        git checkout 1.0.x                                                                &&\
+        git checkout $graphite_version                                                    &&\
         python setup.py install
 
 RUN     git clone https://github.com/graphite-project/carbon.git /src/carbon              &&\
         cd /src/carbon                                                                    &&\
-        git checkout 1.0.x                                                                &&\
+        git checkout $graphite_version                                                    &&\
         python setup.py install
 
 

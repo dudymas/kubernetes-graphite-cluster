@@ -9,20 +9,21 @@ RUN     apt-get -y update &&\
 	gunicorn supervisor nginx-light git wget curl build-essential python-dev libffi-dev vim
 RUN     pip install Twisted==13.2.0
 RUN     pip install pytz
+ARG graphite_version=1.1.x
 RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
         cd /src/whisper                                                                   &&\
-        git checkout 1.0.x                                                                &&\
+        git checkout $graphite_version                                                    &&\
         python setup.py install
 
 RUN     git clone https://github.com/graphite-project/carbon.git /src/carbon              &&\
         cd /src/carbon                                                                    &&\
-        git checkout 1.0.x                                                                &&\
+        git checkout $graphite_version                                                    &&\
         python setup.py install
 
 
 RUN     git clone https://github.com/graphite-project/graphite-web.git /src/graphite-web  &&\
         cd /src/graphite-web                                                              &&\
-        git checkout 1.0.x								                                                &&\
+        git checkout $graphite_version                                                    &&\
         python setup.py install                                                           &&\
         pip install -r requirements.txt                                                   &&\
         python check-dependencies.py
