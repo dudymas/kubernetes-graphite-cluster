@@ -1,4 +1,4 @@
-from	python:3-alpine
+FROM	python:3-alpine
 
 # Install required packages
 RUN     apk add --update nodejs git build-base
@@ -16,13 +16,13 @@ RUN     git clone https://github.com/graphite-project/carbon.git /src/carbon    
         python setup.py install
 
 
-add conf/carbon.conf.template /opt/graphite/conf/carbon.conf.template
-add conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
-add	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD conf/carbon.conf.template /opt/graphite/conf/carbon.conf.template
+ADD conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
+ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN apk add npm && mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
-add kube-watch.js /kube-watch/kube-watch.js
+ADD kube-watch.js /kube-watch/kube-watch.js
 
 EXPOSE 2003
 
