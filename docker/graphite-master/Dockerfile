@@ -1,7 +1,7 @@
 from	python:3-alpine
 
 # Install required packages
-run apk add --update nodejs git build-base
+RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev
 RUN     pip install Twisted==13.2.0
 RUN     pip install pytz
 ARG graphite_version=1.1.x
@@ -43,7 +43,7 @@ run	chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
 run	chmod 0664 /opt/graphite/storage/graphite.db
 run cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
 
-RUN mkdir /kube-watch
+RUN apk add npm && mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 add kube-watch.js /kube-watch/kube-watch.js
 
