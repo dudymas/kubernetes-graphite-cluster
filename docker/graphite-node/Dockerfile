@@ -1,7 +1,7 @@
 from	python:3-alpine
 
 # Install required packages
-RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev git build-base
+RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev git build-base nginx
 RUN     pip3 install Twisted pytz supervisor gunicorn
 ARG graphite_version=1.1.x
 RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
