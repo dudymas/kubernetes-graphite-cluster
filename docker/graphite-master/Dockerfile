@@ -1,9 +1,8 @@
 FROM	python:3-alpine
 
 # Install required packages
-RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev
-RUN     pip install Twisted==13.2.0
-RUN     pip install pytz
+RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev npm nginx
+RUN     pip3 install Twisted pytz supervisor gunicorn
 ARG graphite_version=1.1.x
 RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
         cd /src/whisper                                                                   &&\
@@ -43,10 +42,8 @@ RUN	chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
 RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
 
-RUN apk add npm && mkdir /kube-watch
+RUN mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
-RUN apk add supervisor
-RUN apk add nginx py3-gunicorn
 ADD kube-watch.js /kube-watch/kube-watch.js
 
 ADD entrypoint.sh /entrypoint.sh

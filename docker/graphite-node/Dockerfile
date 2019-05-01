@@ -1,10 +1,8 @@
 from	python:3-alpine
 
 # Install required packages
-RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev
-RUN apk add --update nodejs git build-base
-RUN     pip install Twisted==13.2.0
-RUN     pip install pytz
+RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev git build-base
+RUN     pip3 install Twisted pytz supervisor gunicorn
 ARG graphite_version=1.1.x
 RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
         cd /src/whisper                                                                   &&\
@@ -47,8 +45,7 @@ RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
 # Install curator cron job
 ADD curator/cron /etc/cron.d/curator.cron
 ADD curator/run.sh /etc/cron.d/curator.sh
-RUN apk add supervisor && chmod +x /etc/cron.d/curator.sh
-RUN apk add nginx py3-gunicorn
+RUN chmod +x /etc/cron.d/curator.sh
 
 ADD entrypoint.sh /entrypoint.sh
 
