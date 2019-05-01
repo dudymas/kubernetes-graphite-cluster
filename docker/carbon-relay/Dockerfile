@@ -26,4 +26,4 @@ RUN mkdir -p /var/log/supervisor
 
 EXPOSE 2003
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/local/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
