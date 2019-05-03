@@ -3,6 +3,7 @@ LINE_RECEIVER_INTERFACE = 0.0.0.0
 LINE_RECEIVER_PORT = 2003
 PICKLE_RECEIVER_INTERFACE = 0.0.0.0
 PICKLE_RECEIVER_PORT = 2004
+TAG_RELAY_NORMALIZED = True
 
 # Carbon-relay has several options for metric routing controlled by RELAY_METHOD
 #
