@@ -4,5 +4,7 @@ metadata:
   name: endpoints-reader
 rules:
 - apiGroups: [""]
-  resources: ["endpoints"]
+  resources:
+    - "endpoints"
+    - "services"
   verbs: ["get", "watch", "list"]
