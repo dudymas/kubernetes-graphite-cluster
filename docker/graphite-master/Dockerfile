@@ -33,6 +33,7 @@ ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Add graphite config
 ADD	./webapp/initial_data.json /opt/graphite/webapp/graphite/initial_data.json
 ADD	./webapp/local_settings.py.template /opt/graphite/webapp/graphite/local_settings.py.template
+ADD	./webapp/tags/rediscluster.py /opt/graphite/webapp/graphite/tags/rediscluster.py
 ADD	./conf/carbon.conf /opt/graphite/conf/carbon.conf
 ADD	./conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
 ADD	./conf/storage-aggregation.conf /opt/graphite/conf/storage-aggregation.conf
@@ -41,6 +42,7 @@ RUN	touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index
 RUN	chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
 RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
+RUN pip install redis-py-cluster
 
 RUN mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
