@@ -1,30 +1,9 @@
-FROM	python:3-alpine
+FROM	alpine:3.10.0
 
-# Install required packages
-RUN     apk add --update --no-cache git build-base py-cairo-dev libffi-dev npm nginx
-RUN     pip3 install Twisted pytz supervisor gunicorn
-ARG graphite_version=1.1.x
-RUN     git clone https://github.com/graphite-project/whisper.git /src/whisper            &&\
-        cd /src/whisper                                                                   &&\
-        git checkout $graphite_version                                                    &&\
-        python setup.py install
-
-RUN     git clone https://github.com/graphite-project/carbon.git /src/carbon              &&\
-        cd /src/carbon                                                                    &&\
-        git checkout $graphite_version                                                    &&\
-        python setup.py install
-
-
-RUN     git clone https://github.com/graphite-project/graphite-web.git /src/graphite-web  &&\
-        cd /src/graphite-web                                                              &&\
-        git checkout $graphite_version                                                    &&\
-        python setup.py install                                                           &&\
-        pip install -r requirements.txt                                                   &&\
-        python check-dependencies.py
-
-# fixes fatal error "Your WhiteNoise configuration is incompatible with WhiteNoise v4.0"
-RUN     /usr/bin/yes | pip uninstall whitenoise                                           &&\
-        pip install "whitenoise<4"
+RUN apk add --update --no-cache py3-pip py3-cairo py3-cffi py3-twisted npm
+RUN pip3 install graphite-web whisper carbon redis-py-cluster
+RUN mkdir /kube-watch
+RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 
 # Add system service config
 ADD	./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -41,11 +20,7 @@ RUN	mkdir -p /opt/graphite/storage/whisper
 RUN	touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index
 RUN	chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
-RUN cp /src/graphite-web/webapp/manage.py /opt/graphite/webapp
-RUN pip install redis-py-cluster
-
-RUN mkdir /kube-watch
-RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
+ADD ./webapp/manage /opt/graphite/webapp
 ADD kube-watch.js /kube-watch/kube-watch.js
 
 ADD entrypoint.sh /entrypoint.sh

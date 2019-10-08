@@ -1,0 +1,1 @@
+#!/usr/bin/django-admin --settings=graphite.settings
