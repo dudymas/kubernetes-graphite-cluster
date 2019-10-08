@@ -17,7 +17,7 @@ RUN     git clone https://github.com/graphite-project/carbon.git /src/carbon    
 
 ADD conf/carbon.conf.template /opt/graphite/conf/carbon.conf.template
 ADD conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
-ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD	./supervisord.conf /etc/supervisord.conf
 
 RUN mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
@@ -26,4 +26,4 @@ RUN mkdir -p /var/log/supervisor
 
 EXPOSE 2003
 
-CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/local/bin/supervisord"]

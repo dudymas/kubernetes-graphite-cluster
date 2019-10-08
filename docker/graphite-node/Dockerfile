@@ -28,7 +28,7 @@ RUN     /usr/bin/yes | pip uninstall whitenoise                                 
 
 # Add system service config
 ADD	./nginx/nginx.conf /etc/nginx/nginx.conf
-ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD	./supervisord.conf /etc/supervisord.conf
 
 # Add graphite config
 ADD	./webapp/initial_data.json /opt/graphite/webapp/graphite/initial_data.json

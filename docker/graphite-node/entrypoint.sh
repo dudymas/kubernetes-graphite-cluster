@@ -10,4 +10,4 @@ fi
 
 mkdir -p /var/log/supervisor
 
-exec /usr/local/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+exec /usr/local/bin/supervisord -c /etc/supervisord.conf
