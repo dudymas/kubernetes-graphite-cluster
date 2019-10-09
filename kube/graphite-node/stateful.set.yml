@@ -12,6 +12,7 @@ spec:
         component: graphite
         app: {{APP_NAME}}
     spec:
+      serviceAccountName: graphite-cluster-sa
       terminationGracePeriodSeconds: 10
       containers:
       - name: {{APP_NAME}}
