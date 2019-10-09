@@ -12,7 +12,7 @@ ADD	./supervisord.conf /etc/supervisord.conf
 # Add graphite config
 ADD	./webapp/initial_data.json /opt/graphite/webapp/graphite/initial_data.json
 ADD	./webapp/local_settings.py.template /opt/graphite/webapp/graphite/local_settings.py.template
-ADD	./webapp/tags/rediscluster.py /opt/graphite/webapp/graphite/tags/rediscluster
+ADD	./webapp/tags/rediscluster.py /opt/graphite/webapp/graphite/tags/rediscluster.py
 ADD	./conf/carbon.conf /opt/graphite/conf/carbon.conf
 ADD	./conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
 ADD	./conf/storage-aggregation.conf /opt/graphite/conf/storage-aggregation.conf
