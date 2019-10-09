@@ -19,7 +19,7 @@ ADD	./conf/storage-aggregation.conf /opt/graphite/conf/storage-aggregation.conf
 RUN	mkdir -p /opt/graphite/storage/whisper
 RUN	mkdir -p /opt/graphite/storage/log
 RUN	touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index
-RUN	chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
+RUN	chmod 0775 -R /opt/graphite/storage
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
 ADD ./webapp/manage /opt/graphite/webapp
 ADD kube-watch.js /kube-watch/kube-watch.js
