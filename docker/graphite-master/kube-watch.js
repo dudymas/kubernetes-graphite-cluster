@@ -33,7 +33,7 @@ function getIps(services) {
 }
 
 function getNodes(endpoints) {
-  return endpoints.subsets ? endpoints.subsets[0].addresses.map(e => `"${e.ip}:80"`).join(",") : "";
+  return endpoints && endpoints.subsets ? endpoints.subsets[0].addresses.map(e => `"${e.ip}:80"`).join(",") : "";
 }
 
 function changeConfig(endpoints, template_pattern) {

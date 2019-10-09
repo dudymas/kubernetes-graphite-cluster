@@ -9,7 +9,7 @@ const configFilePath = "./proxyConfig.js"
 const namespace = fs.readFileSync('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'utf8').toString();
 
 function getNodes(endpoints) {
-  return endpoints.subsets ? endpoints.subsets[0].addresses.map(e => ({ host: e.ip, port: 8125, adminport: 8126 })) : [];
+  return endpoints && endpoints.subsets ? endpoints.subsets[0].addresses.map(e => ({ host: e.ip, port: 8125, adminport: 8126 })) : [];
 }
 
 function changeConfig(endpoints) {

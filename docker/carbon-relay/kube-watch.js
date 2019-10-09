@@ -23,7 +23,7 @@ function restartProcess() {
 }
 
 function getNodes(endpoints) {
-  return endpoints.subsets ? endpoints.subsets[0].addresses.map(e => `${e.ip}:2004`).join(",") : "";
+  return endpoints && endpoints.subsets ? endpoints.subsets[0].addresses.map(e => `${e.ip}:2004`).join(",") : "";
 }
 
 function changeConfig(endpoints) {
