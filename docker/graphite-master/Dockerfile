@@ -10,7 +10,7 @@ ENV PYTHONPATH=/opt/graphite/webapp
 ENV DJANGO_SETTINGS_MODULE=graphite.settings
 
 # Add system service config
-ADD	./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+ADD	./nginx/nginx.conf /etc/nginx/nginx.conf
 ADD	./supervisord.conf /etc/supervisord.conf
 
 # Add graphite config
