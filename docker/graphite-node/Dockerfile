@@ -5,6 +5,10 @@ RUN pip3 install supervisor graphite-web whisper carbon redis-py-cluster gunicor
 RUN mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 
+# Add env vars
+ENV PYTHONPATH=/opt/graphite/webapp
+ENV DJANGO_SETTINGS_MODULE=graphite.settings
+
 # Add system service config
 ADD	./nginx/nginx.conf /etc/nginx/nginx.conf
 ADD	./supervisord.conf /etc/supervisord.conf
