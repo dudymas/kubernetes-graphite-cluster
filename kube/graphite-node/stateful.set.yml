@@ -33,7 +33,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: graphite-node-pv
-          mountPath: /opt/graphite/storage
+          mountPath: /opt/graphite/storage/whisper
       {{ADDITIONAL_YAML}}
   volumeClaimTemplates:
   - metadata:
