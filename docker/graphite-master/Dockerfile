@@ -20,8 +20,7 @@ ADD	./webapp/tags/rediscluster.py /opt/graphite/webapp/graphite/tags/rediscluste
 ADD	./conf/carbon.conf /opt/graphite/conf/carbon.conf
 ADD	./conf/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
 ADD	./conf/storage-aggregation.conf /opt/graphite/conf/storage-aggregation.conf
-RUN	mkdir -p /opt/graphite/storage/whisper
-RUN	mkdir -p /opt/graphite/storage/log/webapp
+RUN	mkdir -p /opt/graphite/storage/whisper /opt/graphite/storage/log/webapp /run/nginx
 RUN	touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index /opt/graphite/storage/log/webapp/info.log
 RUN	chmod 0775 -R /opt/graphite/storage
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
