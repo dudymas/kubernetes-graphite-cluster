@@ -1,7 +1,7 @@
 from	alpine:3.10.0
 
 RUN apk add --update --no-cache py3-pip py3-cairo py3-cffi py3-twisted npm
-RUN pip3 install graphite-web whisper carbon redis-py-cluster
+RUN pip3 install supervisor graphite-web whisper carbon redis-py-cluster
 RUN mkdir /kube-watch
 RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 
