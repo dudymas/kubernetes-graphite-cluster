@@ -45,16 +45,6 @@ function changeConfig(endpoints, template_pattern) {
 
 async function main() {
   await client.loadSpec();
-  const stream = client.apis.v1.ns(namespace).endpoints.getStream({ qs: { watch: true, fieldSelector: 'metadata.name=graphite-node' } });
-  stream.pipe(jsonStream);
-  jsonStream.on('data', obj => {
-    if (!obj) {
-      return;
-    }
-    console.log('Received update:', JSON.stringify(obj));
-    graphite_config['GRAPHITE_NODES'] = getNodes(obj.object)
-    changeConfig();
-  });
   const redis_stream = client.apis.v1.ns(namespace).services.getStream({ qs: { watch: true, fieldSelector: 'metadata.name=redis-tags' } });
   redis_stream.pipe(redisjsonStream);
   redisjsonStream.on('data', obj => {
