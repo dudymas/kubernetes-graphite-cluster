@@ -29,7 +29,7 @@ function restartProcess() {
 }
 
 function getIps(services) {
-  return services.spec ? services.spec.clusterIP : "";
+  return services && services.spec ? services.spec.clusterIP : "";
 }
 
 function getNodes(endpoints) {
