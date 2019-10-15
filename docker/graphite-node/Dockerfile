@@ -1,9 +1,8 @@
 from	alpine:3.10.0
 
-RUN apk add --update --no-cache py3-pip py3-cairo py3-cffi py3-twisted npm nginx
+RUN apk add --update --no-cache py3-pip py3-cairo py3-cffi py3-twisted nginx
 RUN pip3 install supervisor graphite-web whisper carbon redis-py-cluster gunicorn
 RUN mkdir /kube-watch
-RUN cd /kube-watch && npm install hashring kubernetes-client@5 json-stream
 
 # Add env vars
 ENV PYTHONPATH=/opt/graphite/webapp
@@ -25,7 +24,7 @@ RUN	touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index /opt/gra
 RUN	chmod 0775 -R /opt/graphite/storage
 RUN	chmod 0664 /opt/graphite/storage/graphite.db
 ADD ./webapp/manage /opt/graphite/webapp
-ADD kube-watch.js /kube-watch/kube-watch.js
+ADD kube-watch.py /kube-watch/kube-watch.py
 
 # Install curator cron job
 ADD curator/cron /etc/cron.d/curator.cron
