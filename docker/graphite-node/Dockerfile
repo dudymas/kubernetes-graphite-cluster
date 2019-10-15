@@ -1,7 +1,7 @@
-from	alpine:3.10.0
+FROM alpine:3.10.0
 
 RUN apk add --update --no-cache py3-pip py3-cairo py3-cffi py3-twisted nginx
-RUN pip3 install supervisor graphite-web whisper carbon redis-py-cluster gunicorn
+RUN pip3 install supervisor graphite-web whisper carbon redis-py-cluster gunicorn kubernetes
 RUN mkdir /kube-watch
 
 # Add env vars

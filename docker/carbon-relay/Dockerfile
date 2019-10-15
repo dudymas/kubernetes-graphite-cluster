@@ -1,7 +1,7 @@
 FROM	alpine:3.10.0
 
 RUN apk add --update --no-cache py3-pip py3-twisted
-RUN pip3 install supervisor whisper carbon
+RUN pip3 install supervisor whisper carbon kubernetes
 RUN mkdir /kube-watch
 
 ADD conf/carbon.conf.template /opt/graphite/conf/carbon.conf.template

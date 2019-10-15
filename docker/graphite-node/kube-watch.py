@@ -25,10 +25,8 @@ def updateConfig(redis_ip, template_field):
         configText = cf.read()
     configText = configText.replace(template_field, redis_ip.strip())
     with open(config_file_path, 'w') as cf:
-        cf.seek(0)
         cf.write(configText)
-        cf.truncate()
-    subprocess.run(['supervisorctl', 'restart', target_program], shell=True, check=True)
+    subprocess.run(f'supervisorctl restart {target_program}', shell=True, check=True)
 
 
 def watchService(target_service, template_field):
