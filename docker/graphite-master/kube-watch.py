@@ -3,11 +3,13 @@ import subprocess, asyncio
 from kubernetes import client, config, watch
 
 
-confid_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
+config_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
 config_file_path = '/opt/graphite/webapp/graphite/local_settings.py'
 target_program = 'graphite-webapp'
 target_service = 'redis-tags'
-template_field = '@@REDIS_CLUSTER@@'
+target_endpoint = 'graphite-node'
+template_service_field = '@@REDIS_CLUSTER@@'
+template_endpoint_field = '@@GRAPHITE_NODES@@'
 
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
@@ -88,7 +90,11 @@ async def watch_kubes(cfg, svc_args, ept_args):
 
 def main():
     config.load_incluster_config()
-    asyncio.run(watch_service(target_service, template_field))
+    cfg = TemplateConfig(config_template_path, config_file_path)
+    svc_args, ept_args = (
+        (target_service, template_service_field),
+        (target_endpoint, template_endpoint_field))
+    asyncio.run(watch_service(cfg, svc_args, ept_args))
 
 
 if __name__ == "__main__":

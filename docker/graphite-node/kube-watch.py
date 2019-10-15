@@ -3,7 +3,7 @@ import subprocess
 from kubernetes import client, config, watch
 
 
-confid_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
+config_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
 config_file_path = '/opt/graphite/webapp/graphite/local_settings.py'
 target_program = 'graphite-webapp'
 target_service = 'redis-tags'
@@ -21,7 +21,7 @@ def get_cluster_ip(services):
 def update_config(redis_ip, template_field):
     if len(redis_ip.strip()) == 0:
         return
-    with open(confid_template_path) as cf:
+    with open(config_template_path) as cf:
         configText = cf.read()
     configText = configText.replace(template_field, redis_ip.strip())
     with open(config_file_path, 'w') as cf:

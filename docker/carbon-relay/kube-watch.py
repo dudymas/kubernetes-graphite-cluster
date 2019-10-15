@@ -3,7 +3,7 @@ import subprocess
 from kubernetes import client, config, watch
 
 
-confid_template_path = '/opt/graphite/conf/carbon.conf.template'
+config_template_path = '/opt/graphite/conf/carbon.conf.template'
 config_file_path = '/opt/graphite/conf/carbon.conf'
 target_program = 'carbon-relay'
 target_endpoints = 'graphite-node'
@@ -29,7 +29,7 @@ def get_endpoint_addresses(endpoints):
 def update_config(template_value, template_field):
     if len(template_value.strip()) == 0:
         return
-    with open(confid_template_path) as cf:
+    with open(config_template_path) as cf:
         configText = cf.read()
     configText = configText.replace(template_field, template_value.strip())
     with open(config_file_path, 'w') as cf:
