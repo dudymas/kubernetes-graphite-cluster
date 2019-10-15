@@ -22,7 +22,7 @@ def get_endpoint_addresses(endpoints):
     if endpoints is None:
         return ''
     else:
-        addresses = [f"'{a}'" for s in endpoints.subsets for a in s.addresses]
+        addresses = [f"{a.ip}:2004" for s in endpoints.subsets for a in s.addresses]
         return ','.join(addresses)
 
 
@@ -41,7 +41,7 @@ def watch_endpoints(target_endpoints, template_field):
     config.load_incluster_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
-    events = w.stream(v1.list_namespaced_endpoint,
+    events = w.stream(v1.list_namespaced_endpoints,
         namespace,
         field_selector=f'metadata.name={target_endpoints}')
     for event in events:
