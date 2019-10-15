@@ -11,7 +11,7 @@ template_field = '@@REDIS_CLUSTER@@'
 
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
-    ns = nsf.read()
+    namespace = nsf.read()
 
 
 def get_cluster_ip(services):
@@ -34,7 +34,7 @@ def watch_service(target_service, template_field):
     v1 = client.CoreV1Api()
     w = watch.Watch()
     events = w.stream(v1.list_namespaced_service,
-        'stats',
+        namespace,
         field_selector=f'metadata.name={target_service}')
     for event in events:
         if 'object' in event:

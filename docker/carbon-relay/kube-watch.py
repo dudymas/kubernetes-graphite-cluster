@@ -22,8 +22,8 @@ def get_endpoint_addresses(endpoints):
     if endpoints is None:
         return ''
     else:
-        addresses = [a for s in endpoints.subsets for a in s.addresses]
-        return addresses.join(',')
+        addresses = [f"'{a}'" for s in endpoints.subsets for a in s.addresses]
+        return ','.join(addresses)
 
 
 def update_config(template_value, template_field):

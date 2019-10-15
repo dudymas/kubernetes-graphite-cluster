@@ -13,7 +13,7 @@ template_endpoint_field = '@@GRAPHITE_NODES@@'
 
 
 with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
-    ns = nsf.read()
+    namespace = nsf.read()
 
 
 def get_cluster_ip(services):
@@ -24,8 +24,8 @@ def get_endpoint_addresses(endpoints):
     if endpoints is None:
         return ''
     else:
-        addresses = [a for s in endpoints.subsets for a in s.addresses]
-        return addresses.join(',')
+        addresses = [f"'{a.ip}'" for s in endpoints.subsets for a in s.addresses]
+        return ','.join(addresses)
 
 
 class TemplateConfig(object):
@@ -36,7 +36,7 @@ class TemplateConfig(object):
         self.load()
     
     def load(self):
-        with open(src) as cf:
+        with open(self.src) as cf:
             self.cfg = cf.read()
     
     def update_config(self, template_value, template_field):
@@ -58,7 +58,7 @@ async def watch_service(target_service, template_field):
     v1 = client.CoreV1Api()
     w = watch.Watch()
     events = w.stream(v1.list_namespaced_service,
-        ns,
+        namespace,
         field_selector=f'metadata.name={target_service}')
     for event in events:
         if 'object' in event:
@@ -68,8 +68,8 @@ async def watch_service(target_service, template_field):
 async def watch_endpoints(target_endpoints, template_field):
     v1 = client.CoreV1Api()
     w = watch.Watch()
-    events = w.stream(v1.list_namespaced_endpoint,
-        ns,
+    events = w.stream(v1.list_namespaced_endpoints,
+        namespace,
         field_selector=f'metadata.name={target_endpoints}')
     for event in events:
         if 'object' in event:
@@ -77,15 +77,17 @@ async def watch_endpoints(target_endpoints, template_field):
 
 
 async def watch_kubes(cfg, svc_args, ept_args):
+    svc_itr = watch_service(*svc_args)
+    ept_itr = watch_endpoints(*ept_args)
     while True:
         svc_ip, ept_ips = await asyncio.gather(
-            watch_service(*svc_args),
-            watch_endpoints(*ept_args),
+            svc_itr.__anext__(),
+            ept_itr.__anext__(),
             )
-        cfg.update_config(*svc_args)
-        cfg.update_config(*ept_args)
+        cfg.update_config(svc_ip, template_service_field)
+        cfg.update_config(ept_ips, template_endpoint_field)
         cfg.write()
-        restart_program()
+        restart_program(target_program)
 
 
 def main():
@@ -94,7 +96,7 @@ def main():
     svc_args, ept_args = (
         (target_service, template_service_field),
         (target_endpoint, template_endpoint_field))
-    asyncio.run(watch_service(cfg, svc_args, ept_args))
+    asyncio.run(watch_kubes(cfg, svc_args, ept_args))
 
 
 if __name__ == "__main__":
