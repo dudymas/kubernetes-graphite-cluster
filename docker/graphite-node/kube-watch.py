@@ -14,11 +14,11 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
     ns = nsf.read()
 
 
-def getClusterIp(services):
+def get_cluster_ip(services):
     return services is None and '' or services.spec.cluster_ip
 
 
-def updateConfig(redis_ip, template_field):
+def update_config(redis_ip, template_field):
     if len(redis_ip.strip()) == 0:
         return
     with open(confid_template_path) as cf:
@@ -29,7 +29,7 @@ def updateConfig(redis_ip, template_field):
     subprocess.run(f'supervisorctl restart {target_program}', shell=True, check=True)
 
 
-def watchService(target_service, template_field):
+def watch_service(target_service, template_field):
     config.load_incluster_config()
     v1 = client.CoreV1Api()
     w = watch.Watch()
@@ -38,12 +38,12 @@ def watchService(target_service, template_field):
         field_selector=f'metadata.name={target_service}')
     for event in events:
         if 'object' in event:
-            ip = getClusterIp(event.get('object'))
-            updateConfig(ip, template_field)
+            ip = get_cluster_ip(event.get('object'))
+            update_config(ip, template_field)
 
 
 def main():
-    watchService(target_service, template_field)
+    watch_service(target_service, template_field)
 
 
 if __name__ == "__main__":
