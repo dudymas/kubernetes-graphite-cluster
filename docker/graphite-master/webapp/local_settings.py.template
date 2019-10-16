@@ -85,14 +85,14 @@ LOG_RENDERING_PERFORMANCE = True
 
 # Graphite uses Django Tagging to support tags in Events. By default each
 # tag is limited to 50 characters in length.
-#MAX_TAG_LENGTH = 50
+MAX_TAG_LENGTH = 90
 
 # Interval for the Auto-Refresh feature in the Composer, measured in seconds.
 #AUTO_REFRESH_INTERVAL = 60
 
 # Timeouts for find and render requests
-#FIND_TIMEOUT = 3.0  # Timeout for metric find requests
-#FETCH_TIMEOUT = 3.0  # Timeout to fetch series data
+FIND_TIMEOUT = 10.0  # Timeout for metric find requests
+FETCH_TIMEOUT = 30.0  # Timeout to fetch series data
 
 #####################################
 # Filesystem Paths #
