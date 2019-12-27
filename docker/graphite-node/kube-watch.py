@@ -1,8 +1,9 @@
-import subprocess
+import os, subprocess
 
 from kubernetes import client, config, watch
 
 
+DEFAULT_SERVICE=os.getenv('REDIS_SERVICE', 'redis-tags.stats.svc')
 config_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
 config_file_path = '/opt/graphite/webapp/graphite/local_settings.py'
 target_program = 'graphite-webapp'
@@ -15,7 +16,7 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
 
 
 def get_cluster_ip(services):
-    return services is None and '' or services.spec.cluster_ip
+    return services is None and DEFAULT_SERVICE or services.spec.cluster_ip
 
 
 def update_config(redis_ip, template_field):

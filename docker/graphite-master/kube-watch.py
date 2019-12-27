@@ -1,8 +1,10 @@
-import subprocess, asyncio
+import os, subprocess, asyncio
 
 from kubernetes import client, config, watch
 
 
+DEFAULT_SERVICE=os.getenv('REDIS_SERVICE', 'redis-tags.stats.svc')
+DEFAULT_ENDPOINT=os.getenv('GRAPHITE_NODES', 'graphite-node.stats.svc')
 config_template_path = '/opt/graphite/webapp/graphite/local_settings.py.template'
 config_file_path = '/opt/graphite/webapp/graphite/local_settings.py'
 target_program = 'graphite-webapp'
@@ -17,14 +19,16 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
 
 
 def get_cluster_ip(services):
-    return services is None and '' or services.spec.cluster_ip
+    return services is None and DEFAULT_SERVICE or services.spec.cluster_ip
 
 
 def get_endpoint_addresses(endpoints):
     if endpoints is None:
-        return ''
+        return DEFAULT_ENDPOINT
     else:
         addresses = [f"'{a.ip}'" for s in endpoints.subsets for a in s.addresses]
+        if not addresses:
+            return DEFAULT_ENDPOINT
         return ','.join(addresses)
 
 
