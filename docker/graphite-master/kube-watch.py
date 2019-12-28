@@ -19,7 +19,9 @@ with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as nsf:
 
 
 def get_cluster_ip(services):
-    return services is None and DEFAULT_SERVICE or services.spec.cluster_ip
+    if not services or services.spec.cluster_ip in {None, 'None'}:
+        return DEFAULT_SERVICE
+    return services.spec.cluster_ip
 
 
 def get_endpoint_addresses(endpoints):
