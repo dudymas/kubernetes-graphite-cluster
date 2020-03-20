@@ -22,4 +22,4 @@ class RedisClusterDB(RedisTagDB):
     from rediscluster import RedisCluster
     startup_nodes = [{"host": settings.TAGDB_REDIS_HOST, "port": settings.TAGDB_REDIS_PORT}]
 
-    self.r = RedisCluster(startup_nodes=startup_nodes, decode_responses=True)
+    self.r = RedisCluster(startup_nodes=startup_nodes, decode_responses=True, skip_full_coverage_check=True)
