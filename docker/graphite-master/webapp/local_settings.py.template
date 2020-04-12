@@ -1,3 +1,4 @@
+import os
 ## Graphite local_settings.py
 # Edit this file to customize the default Graphite webapp settings
 #
@@ -139,6 +140,9 @@ FETCH_TIMEOUT = 30.0  # Timeout to fetch series data
 #    'graphite.finders.standard.StandardFinder',
 #    'graphite.finders.ceres.CeresFinder',
 # )
+if os.getenv('GRAPHITE_STORAGE_FINDER', False):
+  STORAGE_FINDERS = os.getenv('GRAPHITE_STORAGE_FINDER')
+# STORAGE_FINDERS = ['biggraphite.plugins.graphite.Finder']
 
 #####################################
 # Email Configuration #
@@ -362,7 +366,8 @@ CLUSTER_SERVERS = [@@GRAPHITE_NODES@@]
 # TagDB Settings #
 #####################################
 # Tag Database
-TAGDB = 'graphite.tags.rediscluster.RedisClusterDB'
+TAGDB = os.getenv('GRAPHITE_TAGDB', 'graphite.tags.rediscluster.RedisClusterDB')
+#TAGDB = 'biggraphite.plugins.tags.BigGraphiteTagDB'
 
 # Time to cache seriesByTag results
 #TAGDB_CACHE_DURATION = 60
@@ -396,3 +401,8 @@ FUNCTION_PLUGINS = []
 # Uncomment the following line for direct access to Django settings such as
 # MIDDLEWARE or APPS
 #from graphite.app_settings import *
+
+# BigGraphite
+BG_DRIVER = 'cassandra'
+BG_CASSANDRA_KEYSPACE = 'biggraphite'
+BG_CASSANDRA_CONTACT_POINTS = os.getenv('GRAPHITE_CASSANDRA_SVC', '127.0.0.1')
