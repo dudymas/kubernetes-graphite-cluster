@@ -1,3 +1,5 @@
+import os
+
 ## Graphite local_settings.py
 # Edit this file to customize the default Graphite webapp settings
 #
