@@ -141,7 +141,7 @@ FETCH_TIMEOUT = 30.0  # Timeout to fetch series data
 #    'graphite.finders.ceres.CeresFinder',
 # )
 if os.getenv('GRAPHITE_STORAGE_FINDER', False):
-  STORAGE_FINDERS = os.getenv('GRAPHITE_STORAGE_FINDER')
+  STORAGE_FINDERS = (os.getenv('GRAPHITE_STORAGE_FINDER'), )
 # STORAGE_FINDERS = ['biggraphite.plugins.graphite.Finder']
 
 #####################################

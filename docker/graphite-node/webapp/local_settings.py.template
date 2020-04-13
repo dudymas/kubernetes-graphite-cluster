@@ -142,7 +142,7 @@ LOG_RENDERING_PERFORMANCE = True
 #    'graphite.finders.ceres.CeresFinder',
 # )
 if os.getenv('GRAPHITE_STORAGE_FINDER', False):
-  STORAGE_FINDERS = os.getenv('GRAPHITE_STORAGE_FINDER')
+  STORAGE_FINDERS = (os.getenv('GRAPHITE_STORAGE_FINDER'), )
 # STORAGE_FINDERS = ['biggraphite.plugins.graphite.Finder']
 
 #####################################
