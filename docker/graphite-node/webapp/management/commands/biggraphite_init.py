@@ -1,5 +1,5 @@
 import os
-from cassandra import Cluster
+from cassandra.cluster import Cluster
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
@@ -15,7 +15,8 @@ class Command(BaseCommand):
         'class': 'SimpleStrategy',
         'replication_factor': '1'
         } AND durable_writes = true;
-
+        """)
+        session.execute("""
         CREATE KEYSPACE IF NOT EXISTS biggraphite WITH replication = {
         'class': 'SimpleStrategy',
         'replication_factor': '1'
