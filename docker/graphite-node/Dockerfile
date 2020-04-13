@@ -4,7 +4,8 @@ RUN apk add --update --no-cache py3-pip nginx libffi-dev build-base python3-dev 
   && CASS_DRIVER_BUILD_CONCURRENCY=8 pip3 install biggraphite \
   && pip3 install supervisor graphite-web whisper carbon \
                   redis-py-cluster gunicorn kubernetes \
-  && apk del build-base python3-dev libffi-dev
+  && apk del build-base python3-dev libffi-dev \
+  && apk add py3-cairo
 RUN mkdir /kube-watch
 
 # Add env vars
