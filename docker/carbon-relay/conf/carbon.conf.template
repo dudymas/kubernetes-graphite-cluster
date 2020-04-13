@@ -206,3 +206,9 @@ MIN_RESET_INTERVAL=121
 # The number of unacknowledged probes to send before considering the connection
 # dead and notifying the application layer.
 # TCP_KEEPCNT=2
+
+### To enable biggraphite, uncomment:
+# BG_DRIVER = cassandra
+# BG_CASSANDRA_KEYSPACE = biggraphite
+# BG_CASSANDRA_CONTACT_POINTS = 127.0.0.1
+# DATABASE = biggraphite
